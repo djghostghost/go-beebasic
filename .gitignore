@@ -1,0 +1,4 @@
+/.idea
+beebasic.*
+/vendor
+go.sum
