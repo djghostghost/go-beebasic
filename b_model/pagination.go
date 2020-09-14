@@ -3,7 +3,7 @@ package vo
 type Pagination struct {
 	Total       int64       `json:"total"`
 	PageSize    int64       `json:"ps"`
-	CurrentPage int64       `json:"ps"`
+	CurrentPage int64       `json:"pn"`
 	Data        interface{} `json:"contentList"`
 }
 
