@@ -6,7 +6,7 @@ require (
 	github.com/cespare/xxhash v1.1.0 // indirect
 	github.com/cihub/seelog v0.0.0-20170130134532-f561c5e57575 // indirect
 	github.com/coocood/freecache v1.1.0 // indirect
-	github.com/djghostghost/go-basic v0.0.0-20200724075812-bf4bc7d7db5d
+	github.com/djghostghost/go-basic v0.1.0
 	github.com/go-redis/redis v6.15.1+incompatible
 	github.com/hashicorp/consul/api v1.1.0
 	github.com/lib/pq v1.1.1 // indirect
@@ -21,4 +21,4 @@ require (
 	gopkg.in/mgo.v2 v2.0.0-20190816093944-a6b53ec6cb22 // indirect
 )
 
-go 1.13
+go 1.14
