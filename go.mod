@@ -8,7 +8,6 @@ require (
 	github.com/coocood/freecache v1.1.0 // indirect
 	github.com/djghostghost/go-basic v0.1.0
 	github.com/go-redis/redis v6.15.1+incompatible
-	github.com/hashicorp/consul/api v1.1.0
 	github.com/lib/pq v1.1.1 // indirect
 	github.com/onsi/ginkgo v1.8.0 // indirect
 	github.com/onsi/gomega v1.5.0 // indirect
