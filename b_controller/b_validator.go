@@ -2,6 +2,7 @@ package b_controller
 
 import (
 	"github.com/astaxie/beego"
+	"github.com/beego/beego/v2/core/logs"
 	"regexp"
 	"strconv"
 )
@@ -10,7 +11,7 @@ import (
 func (t *BasicController) GetStringNE(key string) string {
 	v := t.GetString(key)
 	if v == "" {
-		beego.Warn("param:" + key + " must not be empty")
+		logs.Warn("param:" + key + " must not be empty")
 		t.Error400()
 	}
 	return v
@@ -20,7 +21,7 @@ func (t *BasicController) GetStringNE(key string) string {
 func (t *BasicController) GetStringsNE(key string) []string {
 	v := t.GetStrings(key)
 	if len(v) == 0 {
-		beego.Warn("param:" + key + " must not be empty")
+		logs.Warn("param:" + key + " must not be empty")
 		t.Error400()
 	}
 	return v
@@ -30,7 +31,7 @@ func (t *BasicController) GetStringsNE(key string) []string {
 func (t *BasicController) GetIntNE(key string) int {
 	v, err := strconv.Atoi(t.GetStringNE(key))
 	if err != nil {
-		beego.Warn("param:" + t.GetString(key) + " is not a int value")
+		logs.Warn("param:" + t.GetString(key) + " is not a int value")
 		t.Error400()
 	}
 	return v
@@ -180,7 +181,7 @@ func (t *BasicController) GetStringNECheckLength(key string, min int, max int) s
 // 获取一个string字符串，字符串必须是电子邮箱地址【非空】
 func (t *BasicController) GetStringNECheckEmail(key string) string {
 	if m, _ := regexp.MatchString("^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+", t.GetStringNE(key)); !m {
-		beego.Warn("param:" + t.GetString(key) + " is not a email")
+		logs.Warn("param:" + t.GetString(key) + " is not a email")
 		t.Error400()
 	}
 	return t.GetString(key)

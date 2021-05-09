@@ -61,11 +61,11 @@ func CustomPanicRecover(ctx *context.Context) {
 }
 
 func handleBizError(ctx *context.Context, bizE *b_error.BizError) {
-	logs.Warn("[BIZE] biz exception: code", bizE.Code, " message ", bizE.Message)
+	logs.Warn("[BIZ] biz exception: code", bizE.Code, " message ", bizE.Message)
 	rd := &ResponseData{
 		Ret:        bizE.Code,
 		Message:    bizE.Message,
-		ServerTime: time.Now().UnixNano() / 1000000,
+		ServerTime: time.Now().Unix(),
 	}
 	hasIndent := beego.BConfig.RunMode != beego.PROD
 	jsonpCallback := ctx.Request.Form.Get("callback")

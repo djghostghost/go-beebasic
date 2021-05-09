@@ -1,20 +1,13 @@
 package b_controller
 
 import (
-	"context"
-	"github.com/astaxie/beego"
+	"github.com/beego/beego/v2/server/web"
 	"strings"
 	"time"
 )
 
 type BasicController struct {
-	beego.Controller
-
-	// 请求开始时间
-	startTime int64
-
-	// 上下文
-	ReqCtx context.Context
+	web.Controller
 }
 
 // 统一返回值
@@ -41,7 +34,7 @@ func (t *BasicController) Ok(d interface{}) {
 		Ret:        200,
 		Message:    "ok",
 		Result:     d,
-		ServerTime: time.Now().UnixNano() / 1000000,
+		ServerTime: time.Now().Unix(),
 	}
 	t.RenderJson(rd)
 }
@@ -58,10 +51,6 @@ func (t *BasicController) Error500() {
 
 func (t *BasicController) GetRealIp() string {
 	var ip string
-	//ip = t.Ctx.Request.Header.Get("X-Real-Ip")
-	//if ip != "" {
-	//	return ip
-	//}
 
 	ip = t.Ctx.Request.Header.Get("X-Forwarded-For")
 	if ip != "" {
