@@ -2,9 +2,9 @@ package b_controller
 
 import (
 	"fmt"
-	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/context"
-	"github.com/astaxie/beego/logs"
+	"github.com/beego/beego/v2/core/logs"
+	"github.com/beego/beego/v2/server/web"
+	"github.com/beego/beego/v2/server/web/context"
 	"github.com/djghostghost/go-beebasic/b_error"
 	"runtime"
 	"strconv"
@@ -14,11 +14,11 @@ import (
 func CustomPanicRecover(ctx *context.Context) {
 	if err := recover(); err != nil {
 		t := ctx.Input.GetData("_____t").(*BasicController)
-		if err == beego.ErrAbort {
+		if err == web.ErrAbort {
 			t.Finish()
 			return
 		}
-		if !beego.BConfig.RecoverPanic {
+		if !web.BConfig.RecoverPanic {
 			t.Finish()
 			panic(err)
 		}
@@ -35,7 +35,7 @@ func CustomPanicRecover(ctx *context.Context) {
 		case *b_error.SystemError:
 			systemError := err.(*b_error.SystemError)
 
-			beego.Error("System Error:", systemError.Error())
+			logs.Error("System Error:", systemError.Error())
 			t.Abort(strconv.Itoa(systemError.Code))
 			return
 		}
@@ -67,7 +67,7 @@ func handleBizError(ctx *context.Context, bizE *b_error.BizError) {
 		Message:    bizE.Message,
 		ServerTime: time.Now().Unix(),
 	}
-	hasIndent := beego.BConfig.RunMode != beego.PROD
+	hasIndent := web.BConfig.RunMode != web.PROD
 	jsonpCallback := ctx.Request.Form.Get("callback")
 	if jsonpCallback != "" {
 		ctx.Output.JSONP(rd, hasIndent)

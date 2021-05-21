@@ -2,7 +2,7 @@ package b_rediscache
 
 import (
 	"fmt"
-	"github.com/astaxie/beego"
+	"github.com/beego/beego/v2/core/logs"
 	"reflect"
 	"strconv"
 	"testing"
@@ -11,7 +11,7 @@ import (
 
 func ExampleUseZSetAop() {
 	RedisTestSetup()
-	beego.SetLevel(beego.LevelError)
+	logs.SetLevel(logs.LevelError)
 
 	cacheKey := "testtest_zset_" + strconv.Itoa(getRand())
 	bizFunc := func() (interface{}, error) {

@@ -3,7 +3,7 @@ package b_ws
 
 import (
 	"errors"
-	"github.com/astaxie/beego/logs"
+	"github.com/beego/beego/v2/core/logs"
 	"github.com/tidwall/gjson"
 	"github.com/valyala/fasthttp"
 	"net"

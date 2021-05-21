@@ -2,7 +2,7 @@ package b_rediscache
 
 import (
 	"errors"
-	"github.com/astaxie/beego"
+	"github.com/beego/beego/v2/core/logs"
 	"github.com/djghostghost/go-basic/util"
 	"math/rand"
 	"time"
@@ -31,17 +31,17 @@ func GlobalLock(options *GlobalLockOptions, fallback func() (interface{}, error)
 		success, err := GetRedisClient().SetNX(options.Key, unique, options.Expire).Result()
 		if err == nil && success {
 			defer GetRedisClient().Eval("if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end", []string{options.Key}, unique)
-			beego.Debug("add lock success: ", options.Key)
+			logs.Debug("add lock success: ", options.Key)
 			return fallback()
 		}
-		beego.Debug("waiting lock: ", options.Key)
+		logs.Debug("waiting lock: ", options.Key)
 		// 短暂休眠，避免可能的活锁
 		time.Sleep(time.Duration(rand.Intn(200)) * time.Millisecond)
 
 		spendTime := time.Now().Sub(startTime)
 
 		if spendTime > options.Timeout {
-			beego.Warn("acquireLock timeout: ", options.Key)
+			logs.Warn("acquireLock timeout: ", options.Key)
 			return nil, errors.New("acquireLock timeout " + options.Key)
 		}
 	}

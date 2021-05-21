@@ -3,7 +3,7 @@ package b_rediscache
 import (
 	"encoding/json"
 	"errors"
-	"github.com/astaxie/beego"
+	"github.com/beego/beego/v2/core/logs"
 	"github.com/djghostghost/go-beebasic/b_globals"
 	"reflect"
 	"time"
@@ -46,7 +46,7 @@ func HashAop(options *HashOptions, fallback func() ([]interface{}, error)) ([]in
 		for _, cacheV := range cacheVs {
 			if cacheV == nil {
 				shouldCallback = true
-				beego.Warn("[REDIS][HASH] key ", options.Key, " has nil value, values", cacheVs)
+				logs.Warn("[REDIS][HASH] key ", options.Key, " has nil value, values", cacheVs)
 				break
 			}
 			rtv := reflect.New(options.Rt)
@@ -73,7 +73,7 @@ func HashAop(options *HashOptions, fallback func() ([]interface{}, error)) ([]in
 		for _, item := range result {
 			cacheV, isEmpty, err := GetCacheValueItem(item)
 			if err != nil {
-				beego.Warn("[REDIS][HASH] GetCacheValueItem error!", err)
+				logs.Warn("[REDIS][HASH] GetCacheValueItem error!", err)
 				continue
 			}
 			// 看一下struct里面的作为field的Field是否有正确的值
@@ -91,7 +91,7 @@ func HashAop(options *HashOptions, fallback func() ([]interface{}, error)) ([]in
 				}
 			}
 			if fieldV == "" {
-				beego.Warn("[REDIS][HASH] key ", options.Key, " value ", item, " has not valid fieldValue!!!")
+				logs.Warn("[REDIS][HASH] key ", options.Key, " value ", item, " has not valid fieldValue!!!")
 			}
 			if !isEmpty && fieldV != "" {
 				GetRedisClient().HSet(options.Key, fieldV, cacheV)

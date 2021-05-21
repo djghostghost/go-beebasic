@@ -1,8 +1,8 @@
 package b_rediscache
 
 import (
-	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/logs"
+	"github.com/beego/beego/v2/core/logs"
+	"github.com/beego/beego/v2/server/web"
 	"github.com/go-redis/redis"
 	"reflect"
 	"strings"
@@ -27,7 +27,7 @@ func BuildRedisClient() {
 	mu.Lock()
 	defer mu.Unlock()
 
-	mode = beego.AppConfig.DefaultString("redis.mode", "cluster")
+	mode = web.AppConfig.DefaultString("redis.mode", "cluster")
 
 	c := GetRedisClient()
 	vc := reflect.ValueOf(c)
@@ -35,16 +35,16 @@ func BuildRedisClient() {
 		return
 	}
 
-	addrs := beego.AppConfig.String("redis.conn")
+	addrs,_ := web.AppConfig.String("redis.conn")
 	if addrs == "" {
 		logs.Info("there is not redis.conn config, skip build redis client")
 		return
 	}
-	password := beego.AppConfig.String("redis.password")
-	diaTimeout := time.Duration(beego.AppConfig.DefaultInt64("redis.conn_timeout", 2000)) * 1e6
-	readTimeout := time.Duration(beego.AppConfig.DefaultInt64("redis.so_timeout", 4000)) * 1e6
-	minIdleConns := beego.AppConfig.DefaultInt("redis.min_idle_conns", 10)
-	maxRetries := beego.AppConfig.DefaultInt("redis.max_retries", 3)
+	password,_ := web.AppConfig.String("redis.password")
+	diaTimeout := time.Duration(web.AppConfig.DefaultInt64("redis.conn_timeout", 2000)) * 1e6
+	readTimeout := time.Duration(web.AppConfig.DefaultInt64("redis.so_timeout", 4000)) * 1e6
+	minIdleConns := web.AppConfig.DefaultInt("redis.min_idle_conns", 10)
+	maxRetries := web.AppConfig.DefaultInt("redis.max_retries", 3)
 
 	switch mode {
 	case "single":
@@ -60,7 +60,7 @@ func BuildRedisClient() {
 		single = redis.NewClient(options)
 
 	case "sentinel":
-		masterName := beego.AppConfig.String("redis.sentinel.master")
+		masterName,_ := web.AppConfig.String("redis.sentinel.master")
 		if len(masterName) == 0 {
 			panic("redis.sentinel.master must not empty when redis.mode=sentinel")
 		}

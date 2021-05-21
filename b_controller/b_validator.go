@@ -1,7 +1,6 @@
 package b_controller
 
 import (
-	"github.com/astaxie/beego"
 	"github.com/beego/beego/v2/core/logs"
 	"regexp"
 	"strconv"
@@ -41,7 +40,7 @@ func (t *BasicController) GetIntNE(key string) int {
 func (t *BasicController) GetInt8NE(key string) int8 {
 	i64, err := strconv.ParseInt(t.GetStringNE(key), 10, 8)
 	if err != nil {
-		beego.Warn("param:" + t.GetString(key) + " is not a int8 value")
+		logs.Warn("param:" + t.GetString(key) + " is not a int8 value")
 		t.Error400()
 	}
 	return int8(i64)
@@ -51,7 +50,7 @@ func (t *BasicController) GetInt8NE(key string) int8 {
 func (t *BasicController) GetUint8NE(key string) uint8 {
 	u64, err := strconv.ParseUint(t.GetStringNE(key), 10, 8)
 	if err != nil {
-		beego.Warn("param:" + t.GetString(key) + " is not a uint8 value")
+		logs.Warn("param:" + t.GetString(key) + " is not a uint8 value")
 		t.Error400()
 	}
 	return uint8(u64)
@@ -61,7 +60,7 @@ func (t *BasicController) GetUint8NE(key string) uint8 {
 func (t *BasicController) GetInt16NE(key string) int16 {
 	i64, err := strconv.ParseInt(t.GetStringNE(key), 10, 16)
 	if err != nil {
-		beego.Warn("param:" + t.GetString(key) + " is not a int16 value")
+		logs.Warn("param:" + t.GetString(key) + " is not a int16 value")
 		t.Error400()
 	}
 	return int16(i64)
@@ -71,7 +70,7 @@ func (t *BasicController) GetInt16NE(key string) int16 {
 func (t *BasicController) GetUint16NE(key string) uint16 {
 	u64, err := strconv.ParseUint(t.GetStringNE(key), 10, 16)
 	if err != nil {
-		beego.Warn("param:" + t.GetString(key) + " is not a uint16 value")
+		logs.Warn("param:" + t.GetString(key) + " is not a uint16 value")
 		t.Error400()
 	}
 	return uint16(u64)
@@ -81,7 +80,7 @@ func (t *BasicController) GetUint16NE(key string) uint16 {
 func (t *BasicController) GetInt32NE(key string) int32 {
 	i64, err := strconv.ParseInt(t.GetStringNE(key), 10, 32)
 	if err != nil {
-		beego.Warn("param:" + t.GetString(key) + " is not a int32 value")
+		logs.Warn("param:" + t.GetString(key) + " is not a int32 value")
 		t.Error400()
 	}
 	return int32(i64)
@@ -91,7 +90,7 @@ func (t *BasicController) GetInt32NE(key string) int32 {
 func (t *BasicController) GetUint32NE(key string) uint32 {
 	u64, err := strconv.ParseUint(t.GetStringNE(key), 10, 32)
 	if err != nil {
-		beego.Warn("param:" + t.GetString(key) + " is not a uint32 value")
+		logs.Warn("param:" + t.GetString(key) + " is not a uint32 value")
 		t.Error400()
 	}
 	return uint32(u64)
@@ -101,7 +100,7 @@ func (t *BasicController) GetUint32NE(key string) uint32 {
 func (t *BasicController) GetInt64NE(key string) int64 {
 	i64, err := strconv.ParseInt(t.GetStringNE(key), 10, 64)
 	if err != nil {
-		beego.Warn("param:" + t.GetString(key) + " is not a int64 value")
+		logs.Warn("param:" + t.GetString(key) + " is not a int64 value")
 		t.Error400()
 	}
 	return int64(i64)
@@ -111,7 +110,7 @@ func (t *BasicController) GetInt64NE(key string) int64 {
 func (t *BasicController) GetUint64NE(key string) uint64 {
 	u64, err := strconv.ParseUint(t.GetStringNE(key), 10, 64)
 	if err != nil {
-		beego.Warn("param:" + t.GetString(key) + " is not a uint64 value")
+		logs.Warn("param:" + t.GetString(key) + " is not a uint64 value")
 		t.Error400()
 	}
 	return uint64(u64)
@@ -121,7 +120,7 @@ func (t *BasicController) GetUint64NE(key string) uint64 {
 func (t *BasicController) GetBoolNE(key string) bool {
 	v, err := strconv.ParseBool(t.GetStringNE(key))
 	if err != nil {
-		beego.Warn("param:" + t.GetString(key) + " is not a bool value")
+		logs.Warn("param:" + t.GetString(key) + " is not a bool value")
 		t.Error400()
 	}
 	return v
@@ -132,7 +131,7 @@ func (t *BasicController) GetFloatNE(key string) float64 {
 	v, err := strconv.ParseFloat(t.GetStringNE(key), 64)
 
 	if err != nil {
-		beego.Warn("param:" + t.GetString(key) + " is not a float value")
+		logs.Warn("param:" + t.GetString(key) + " is not a float value")
 		t.Error400()
 	}
 	return v
@@ -142,7 +141,7 @@ func (t *BasicController) GetFloatNE(key string) float64 {
 func (t *BasicController) GetIntNECheckMax(key string, max int) int {
 	v := t.GetIntNE(key)
 	if v > max {
-		beego.Warn("param:" + key + " 的值必须小于等于 " + strconv.Itoa(max))
+		logs.Warn("param:" + key + " 的值必须小于等于 " + strconv.Itoa(max))
 		t.Error400()
 	}
 	return v
@@ -152,7 +151,7 @@ func (t *BasicController) GetIntNECheckMax(key string, max int) int {
 func (t *BasicController) GetIntNECheckMin(key string, min int) int {
 	v := t.GetIntNE(key)
 	if v < min {
-		beego.Warn("param:" + key + " 的值必须大于等于 " + strconv.Itoa(min))
+		logs.Warn("param:" + key + " 的值必须大于等于 " + strconv.Itoa(min))
 		t.Error400()
 	}
 	return v
@@ -162,7 +161,7 @@ func (t *BasicController) GetIntNECheckMin(key string, min int) int {
 func (t *BasicController) GetStringsNECheckSize(key string, min int, max int) []string {
 	v := t.GetStringsNE(key)
 	if len(v) < min || len(v) > max {
-		beego.Warn("param: " + key + " 的值的个数必须大于等于 " + strconv.Itoa(min) + "且小于等于" + strconv.Itoa(max))
+		logs.Warn("param: " + key + " 的值的个数必须大于等于 " + strconv.Itoa(min) + "且小于等于" + strconv.Itoa(max))
 		t.Error400()
 	}
 	return v
@@ -172,7 +171,7 @@ func (t *BasicController) GetStringsNECheckSize(key string, min int, max int) []
 func (t *BasicController) GetStringNECheckLength(key string, min int, max int) string {
 	v := t.GetStringNE(key)
 	if len(v) < min || len(v) > max {
-		beego.Warn("param:" + key + " length must be in " + strconv.Itoa(min) + " - " + strconv.Itoa(max))
+		logs.Warn("param:" + key + " length must be in " + strconv.Itoa(min) + " - " + strconv.Itoa(max))
 		t.Error400()
 	}
 	return v

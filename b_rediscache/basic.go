@@ -3,7 +3,7 @@ package b_rediscache
 import (
 	"encoding/json"
 	"errors"
-	"github.com/astaxie/beego"
+	"github.com/beego/beego/v2/server/web"
 	"math/rand"
 	"os"
 	"path"
@@ -62,14 +62,14 @@ func GetCacheValueItem(v interface{}) (string, bool, error) {
 
 func RedisTestSetup() {
 	ap, _ := os.Getwd()
-	beego.TestBeegoInit(ap + "/../testdata")
+	web.TestBeegoInit(ap + "/../testdata")
 	BuildRedisClient()
 }
 
 func RedisTestSutupWithConf(conf string) {
 	ap, _ := os.Getwd()
 	confPath := path.Join(ap, "..", "testdata", conf)
-	beego.TestBeegoInit(confPath)
+	web.TestBeegoInit(confPath)
 	BuildRedisClient()
 	os.Chdir(ap)
 }

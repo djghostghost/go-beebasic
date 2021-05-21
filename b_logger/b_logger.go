@@ -3,9 +3,9 @@ package b_logger
 import (
 	"encoding/json"
 	"github.com/BurntSushi/toml"
-	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/logs"
-	"github.com/astaxie/beego/orm"
+	"github.com/beego/beego/v2/client/orm"
+	"github.com/beego/beego/v2/core/logs"
+	"github.com/beego/beego/v2/server/web"
 	"io/ioutil"
 	"log"
 	"os"
@@ -41,20 +41,20 @@ func Init() {
 	content, _ := json.Marshal(AppConfig)
 	log.Printf("logs config %s\n", string(content))
 	if AppConfig.Separate == nil {
-		err := beego.SetLogger("file", string(content))
+		err := logs.SetLogger("file", string(content))
 		if err != nil {
 			panic(err)
 		}
 
 	} else {
-		err := beego.SetLogger("multifile", string(content))
+		err := logs.SetLogger("multifile", string(content))
 		if err != nil {
 			panic(err)
 		}
 	}
-	beego.SetLogFuncCall(true)
+	logs.SetLogFuncCall(true)
 	// 输出access日志
-	beego.BConfig.Log.AccessLogs = true
+	web.BConfig.Log.AccessLogs = true
 	// orm 日志也输入到系统日志中
 	orm.DebugLog = orm.NewLog(logs.GetBeeLogger())
 }
@@ -76,7 +76,7 @@ func readConfig() {
 	lock.Lock()
 	defer lock.Unlock()
 	filename := "logger.toml"
-	runmode := beego.AppConfig.String("runmode")
+	runmode := web.AppConfig.DefaultString("runmode","dev")
 	_, err := os.Stat("./conf/" + runmode + "." + filename)
 	if err == nil {
 		filename = runmode + "." + filename

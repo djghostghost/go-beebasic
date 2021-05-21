@@ -2,7 +2,6 @@ module github.com/djghostghost/go-beebasic
 
 require (
 	github.com/BurntSushi/toml v0.3.1
-	github.com/astaxie/beego v1.12.0
 	github.com/beego/beego/v2 v2.0.1
 	github.com/djghostghost/go-basic v0.1.0
 	github.com/go-redis/redis v6.15.1+incompatible

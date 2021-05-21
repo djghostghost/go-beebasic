@@ -2,7 +2,7 @@ package b_rediscache
 
 import (
 	"encoding/json"
-	"github.com/astaxie/beego"
+	"github.com/beego/beego/v2/core/logs"
 	"reflect"
 	"time"
 )
@@ -26,7 +26,7 @@ func SimpleAop(options *SimpleOptions, fallback func() (interface{}, error)) (in
 		err := json.Unmarshal([]byte(cacheV), rv)
 		return reflect.ValueOf(rv).Elem().Interface(), true, err
 	}
-	beego.Warn("[REDIS][SIMPLE] cant get value from redis cache, maybe load from db!")
+	logs.Warn("[REDIS][SIMPLE] cant get value from redis cache, maybe load from db!")
 	var result interface{} = nil
 	result, err = fallback()
 	if err != nil {
@@ -50,7 +50,7 @@ func SimpleAop(options *SimpleOptions, fallback func() (interface{}, error)) (in
 	// 是否需要存储空值
 	if !rewriteSuccess && options.EmptyExpires > 0 {
 		GetRedisClient().Set(options.Key, EmptyFlag, options.EmptyExpires)
-		beego.Warn("[REDIS][SIMPLE] cache empty value, key:", options.Key)
+		logs.Warn("[REDIS][SIMPLE] cache empty value, key:", options.Key)
 	}
 	return result, false, nil
 }

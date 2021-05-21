@@ -1,7 +1,7 @@
 package b_rediscache
 
 import (
-	"github.com/astaxie/beego/logs"
+	"github.com/beego/beego/v2/core/logs"
 	"testing"
 	"time"
 )

@@ -2,7 +2,7 @@ package b_rediscache
 
 import (
 	"fmt"
-	"github.com/astaxie/beego"
+	"github.com/beego/beego/v2/core/logs"
 	"github.com/go-redis/redis"
 	"strconv"
 	"sync"
@@ -12,7 +12,7 @@ import (
 
 func ExampleUseGLock() {
 	RedisTestSetup()
-	beego.SetLevel(beego.LevelNotice)
+	logs.SetLevel(logs.LevelNotice)
 
 	cacheKey := "testtest_global_lock_" + strconv.Itoa(getRand())
 	res, err := UseGLock(cacheKey).WithTimeout(-1).WithExpire(10 * time.Second).Then(func() (i interface{}, e error) {

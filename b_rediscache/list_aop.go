@@ -2,7 +2,7 @@ package b_rediscache
 
 import (
 	"encoding/json"
-	"github.com/astaxie/beego"
+	"github.com/beego/beego/v2/core/logs"
 	"reflect"
 	"time"
 )
@@ -37,13 +37,13 @@ func ListAop(options *ListOptions, fallback func() ([]interface{}, error)) ([]in
 			if err != nil {
 				return nil, false, err
 			}
-			beego.Info("[Reflect] Value.", rv)
+			logs.Info("[Reflect] Value.", rv)
 			result = append(result, reflect.ValueOf(rv).Elem().Interface())
-			beego.Info("[Reflect] Result.", result)
+			logs.Info("[Reflect] Result.", result)
 		}
 		return result, true, err
 	}
-	beego.Warn("[REDIS][LIST] cant get value from redis cache, maybe load from db!")
+	logs.Warn("[REDIS][LIST] cant get value from redis cache, maybe load from db!")
 	result, err = fallback()
 	if err != nil {
 		return nil, false, err
@@ -54,7 +54,7 @@ func ListAop(options *ListOptions, fallback func() ([]interface{}, error)) ([]in
 		for _, item := range result {
 			cacheV, isEmpty, err := GetCacheValueItem(item)
 			if err != nil {
-				beego.Warn("[REDIS][LIST] GetCacheValueItem error!", err)
+				logs.Warn("[REDIS][LIST] GetCacheValueItem error!", err)
 				continue
 			}
 			if !isEmpty {
@@ -74,7 +74,7 @@ func ListAop(options *ListOptions, fallback func() ([]interface{}, error)) ([]in
 	if rewriteCount == 0 && options.EmptyExpires > 0 {
 		GetRedisClient().RPush(options.Key, EmptyFlag)
 		GetRedisClient().Expire(options.Key, options.EmptyExpires)
-		beego.Warn("[REDIS][LIST] cache empty value, key:", options.Key)
+		logs.Warn("[REDIS][LIST] cache empty value, key:", options.Key)
 	}
 
 	return result, false, nil

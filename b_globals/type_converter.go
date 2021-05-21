@@ -30,7 +30,7 @@ func Number2Float64(v interface{}, kind reflect.Kind) (float64, bool) {
 	case reflect.Float32:
 		return float64(v.(float32)), true
 	case reflect.Float64:
-		return float64(v.(float64)), true
+		return v.(float64), true
 	}
 	return float64(0), false
 }
@@ -59,11 +59,11 @@ func Primary2String(v interface{}, kind reflect.Kind) (string, bool) {
 	case reflect.Uint32:
 		return strconv.FormatUint(uint64(v.(uint32)), 10), true
 	case reflect.Uint64:
-		return strconv.FormatUint(uint64(v.(uint64)), 10), true
+		return strconv.FormatUint(v.(uint64), 10), true
 	case reflect.Float32:
 		return strconv.FormatFloat(float64(v.(float32)), 'f', 6, 64), true
 	case reflect.Float64:
-		return strconv.FormatFloat(float64(v.(float64)), 'f', 6, 64), true
+		return strconv.FormatFloat(v.(float64), 'f', 6, 64), true
 	case reflect.String:
 		return v.(string), true
 	}

@@ -2,9 +2,9 @@ package b_rediscache
 
 import (
 	"encoding/json"
-	"github.com/astaxie/beego"
-	"github.com/go-redis/redis"
+	"github.com/beego/beego/v2/core/logs"
 	"github.com/djghostghost/go-beebasic/b_globals"
+	"github.com/go-redis/redis"
 	"reflect"
 	"strconv"
 	"time"
@@ -93,7 +93,7 @@ func ZSetAop(options *ZSetOptions, fallback func() (interface{}, error)) (interf
 		}
 	}
 
-	beego.Warn("[REDIS][ZSET] cant get value from redis cache, maybe load from db!")
+	logs.Warn("[REDIS][ZSET] cant get value from redis cache, maybe load from db!")
 
 	fResult, err := fallback()
 	if err != nil {
@@ -107,7 +107,7 @@ func ZSetAop(options *ZSetOptions, fallback func() (interface{}, error)) (interf
 		for k, score := range fResult.(map[interface{}]float64) {
 			cacheV, isEmpty, err := GetCacheValueItem(k)
 			if err != nil {
-				beego.Warn("[REDIS][ZSET] GetCacheValueItem error!", err)
+				logs.Warn("[REDIS][ZSET] GetCacheValueItem error!", err)
 				continue
 			}
 			if !isEmpty {
@@ -133,7 +133,7 @@ func ZSetAop(options *ZSetOptions, fallback func() (interface{}, error)) (interf
 			}
 			cacheV, isEmpty, err := GetCacheValueItem(resultItem)
 			if err != nil {
-				beego.Warn("[REDIS][ZSET] GetCacheValueItem error!", err)
+				logs.Warn("[REDIS][ZSET] GetCacheValueItem error!", err)
 				continue
 			}
 			if !isEmpty {
@@ -149,7 +149,7 @@ func ZSetAop(options *ZSetOptions, fallback func() (interface{}, error)) (interf
 		if rewriteCount == 0 && options.EmptyExpires > 0 {
 			GetRedisClient().ZAdd(options.Key, redis.Z{Member: EmptyFlag})
 			GetRedisClient().Expire(options.Key, options.EmptyExpires)
-			beego.Warn("[REDIS][ZSET] cache empty value, key:", options.Key)
+			logs.Warn("[REDIS][ZSET] cache empty value, key:", options.Key)
 		}
 	}
 
